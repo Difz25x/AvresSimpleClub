@@ -3,6 +3,7 @@
 namespace Difz25\AvresClub;
 
 use Difz25\AvresClub\club\ClubManager;
+use Difz25\AvresClub\utils\Roles;
 use JsonException;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
@@ -45,13 +46,19 @@ class AvresClub extends PluginBase {
                         break;
                     case "delete":
                         if($this->getClubManager()->checkClub($args[1]) !== null){
-                            $this->getClubManager()->deleteClub($sender->getName(), $args[1]);
-                            $sender->sendMessage("Succesfully deleted club with name: " . $args[1]);
+                            if(Roles::class->getRole($sender->getName() == Roles::LEADER)){
+                                $this->getClubManager()->deleteClub($sender->getName(), $args[1]);
+                                $sender->sendMessage("Succesfully deleted club with name: " . $args[1]);
+                            }
                         }
                         break;
                     case "rename":
-                        $this->getClubManager()->renameClub($sender->getName(), $args[1], $args[2]);
-                        $sender->sendMessage("Succesfully rename clan to: " . $args[1]);
+                        if($this->getClubManager()->checkClub($args[1]) !== null){
+                            if(Roles::class->getRole($sender->getName() == Roles::LEADER)){
+                                $this->getClubManager()->renameClub($sender->getName(), $args[1], $args[2]);
+                                $sender->sendMessage("Succesfully rename clan to: " . $args[1]);
+                            }
+                        }
                         break;
                     case "info":
                         $keys = $this->getClubManager()->keysPlayerClub($sender->getName());
