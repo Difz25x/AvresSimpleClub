@@ -1,0 +1,10 @@
+Club:
+    Example:
+        name: "Example"
+        description: "Just a example club"
+        leader: "Difz25"
+Player:
+    Difz25:
+        club: "Example"
+        role: "LEADER"
+        
